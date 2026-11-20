@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: slotbook
+  flyway:
+    # Core's migrations, then every module's (each module ships its own under db/modules).
+    locations: classpath:db/migration,classpath:db/modules
+  main:
+    banner-mode: off
+  artemis:
+    mode: embedded
+    embedded:
+      persistent: false
+  jms:
+    pub-sub-domain: true
+
+server:
+  port: 8080
+
+slotbook:
+  # The centre's local time zone.
+  centre-zone: Asia/Kolkata
+  db:
+    mode: embedded
+  payments:
+    gateway-delay-ms: 120
+  events:
+    auto-dispatch: true
+    dispatch-interval-ms: 1000
+    # In development some events are delivered twice on purpose. See CONTRACT.md.
+    redeliver-chance: 0.2
+  broker:
+    chaos:
+      # Like a real network: in development some broker messages arrive twice or a few seconds late.
+      duplicate-chance: 0.1
+      max-delay-ms: 3000
+  chaos:
+    # Simulated database failures, used only by the chaos runner (0 = off).
+    db-failure-chance: 0
+
+logging:
+  level:
+    io.zonky.test.db.postgres: warn
+    org.apache.activemq: warn

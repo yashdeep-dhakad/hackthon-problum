@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.15</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.slotbook</groupId>
+    <artifactId>slotbook-parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>SlotBook</name>
+
+    <modules>
+        <module>contract</module>
+        <module>core</module>
+        <module>modules/reminders</module>
+        <module>modules/waitlist</module>
+        <module>modules/settlement</module>
+        <module>modules/inbox</module>
+        <module>app</module>
+        <module>chaos</module>
+    </modules>
+
+    <properties>
+        <java.version>21</java.version>
+        <embedded-postgres.version>2.2.2</embedded-postgres.version>
+        <postgres-binaries.version>17.11.0</postgres-binaries.version>
+        <!-- only the app module is runnable with spring-boot:run -->
+        <spring-boot.run.skip>true</spring-boot.run.skip>
+        <!-- the chaos runner takes minutes; run it with ./chaos.sh (or chaos.cmd) -->
+        <skipChaos>true</skipChaos>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.slotbook</groupId>
+                <artifactId>contract</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.slotbook</groupId>
+                <artifactId>core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zonky.test</groupId>
+                <artifactId>embedded-postgres</artifactId>
+                <version>${embedded-postgres.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zonky.test.postgres</groupId>
+                <artifactId>embedded-postgres-binaries-bom</artifactId>
+                <version>${postgres-binaries.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
